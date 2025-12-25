@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SpatialFlow | AR Design Studio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+
+    <!-- Animated Background Elements -->
+    <div class="bg-shape shape-1"></div>
+    <div class="bg-shape shape-2"></div>
+    <div class="bg-shape shape-3"></div>
+
+    <!-- Main Container -->
+    <main class="container">
+        
+        <!-- Glassmorphism Card -->
+        <div class="glass-card">
+            <div class="content">
+                <div class="logo-area">
+                    <div class="icon-box">
+                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M2 17L12 22L22 17" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M2 12L12 17L22 12" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    <span class="version-tag">v2.0 AR Beta</span>
+                </div>
+
+                <h1 class="hero-title">SpatialFlow<br><span class="gradient-text">Design Studio</span></h1>
+                
+                <p class="hero-desc">
+                    Unleash your creativity in Augmented Reality. 
+                    <br>Control nodes, build diagrams, and shape ideas with your bare hands.
+                </p>
+
+                <div class="features-grid">
+                    <div class="feature">
+                        <span class="f-icon">👋</span>
+                        <span>Gesture Control</span>
+                    </div>
+                    <div class="feature">
+                        <span class="f-icon">🎥</span>
+                        <span>AR Passthrough</span>
+                    </div>
+                    <div class="feature">
+                        <span class="f-icon">✨</span>
+                        <span>Smart Snapping</span>
+                    </div>
+                </div>
+
+                <button id="launchBtn" class="launch-btn" onclick="launchApp()">
+                    <span class="btn-text">Enter Studio</span>
+                    <span class="btn-glow"></span>
+                    <svg class="btn-arrow" width="20" height="20" viewBox="0 0 24 24" fill="none">
+                        <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </button>
+
+                <p id="statusMsg" class="status-msg"></p>
+            </div>
+        </div>
+        
+    </main>
+
+    <script>
+        async function launchApp() {
+            const btn = document.getElementById('launchBtn');
+            const msg = document.getElementById('statusMsg');
+            
+            btn.classList.add('loading');
+            btn.innerHTML = 'Starting Engine...';
+            
+            try {
+                const response = await fetch('/launch_app', { method: 'POST' });
+                const data = await response.json();
+                
+                if (response.ok) {
+                    msg.innerHTML = "Studio Launched! Check your taskbar.";
+                    msg.style.color = "#4ade80";
+                    setTimeout(() => {
+                        window.close(); // Optional: close launcher tab after success
+                    }, 3000);
+                } else {
+                    msg.innerHTML = "Error: " + data.message;
+                    msg.style.color = "#f87171";
+                    btn.classList.remove('loading');
+                    btn.innerHTML = 'Try Again';
+                }
+            } catch (err) {
+                console.error(err);
+                msg.innerHTML = "Connection Error. Is launcher running?";
+                msg.style.color = "#f87171";
+                btn.classList.remove('loading');
+                btn.innerHTML = 'Try Again';
+            }
+        }
+    </script>
+</body>
+</html>

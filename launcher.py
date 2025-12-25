@@ -5,7 +5,13 @@ import webbrowser
 from threading import Timer
 from flask import Flask, render_template, jsonify
 
-app = Flask(__name__, template_folder='web_launcher/templates', static_folder='web_launcher/static')
+# Use absolute paths for Vercel environment
+import os
+base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+template_dir = os.path.join(base_dir, 'web_launcher', 'templates')
+static_dir = os.path.join(base_dir, 'web_launcher', 'static')
+
+app = Flask(__name__, template_folder=template_dir, static_folder=static_dir)
 
 # Global process reference
 main_app_process = None

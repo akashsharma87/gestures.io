@@ -55,52 +55,28 @@
                     </div>
                 </div>
 
-                <button id="launchBtn" class="launch-btn" onclick="launchApp()">
-                    <span class="btn-text">Enter Studio</span>
-                    <span class="btn-glow"></span>
-                    <svg class="btn-arrow" width="20" height="20" viewBox="0 0 24 24" fill="none">
-                        <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>
-                </button>
+                <div class="actions">
+                    <a href="https://github.com/akashsharma87/gestures.io/releases/latest" target="_blank" class="launch-btn">
+                        <span class="btn-text">Download for macOS</span>
+                        <span class="btn-glow"></span>
+                        <svg class="btn-arrow" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                            <polyline points="7 10 12 15 17 10"></polyline>
+                            <line x1="12" y1="15" x2="12" y2="3"></line>
+                        </svg>
+                    </a>
+                </div>
 
-                <p id="statusMsg" class="status-msg"></p>
+                <p id="statusMsg" class="status-msg" style="margin-top: 20px; font-size: 0.9em; opacity: 0.8;">
+                    Requires macOS 11.0+ (Apple Silicon)
+                </p>
             </div>
         </div>
         
     </main>
 
     <script>
-        async function launchApp() {
-            const btn = document.getElementById('launchBtn');
-            const msg = document.getElementById('statusMsg');
-            
-            btn.classList.add('loading');
-            btn.innerHTML = 'Starting Engine...';
-            
-            try {
-                const response = await fetch('/launch_app', { method: 'POST' });
-                const data = await response.json();
-                
-                if (response.ok) {
-                    msg.innerHTML = "Studio Launched! Check your taskbar.";
-                    msg.style.color = "#4ade80";
-                    setTimeout(() => {
-                        window.close(); // Optional: close launcher tab after success
-                    }, 3000);
-                } else {
-                    msg.innerHTML = "Error: " + data.message;
-                    msg.style.color = "#f87171";
-                    btn.classList.remove('loading');
-                    btn.innerHTML = 'Try Again';
-                }
-            } catch (err) {
-                console.error(err);
-                msg.innerHTML = "Connection Error. Is launcher running?";
-                msg.style.color = "#f87171";
-                btn.classList.remove('loading');
-                btn.innerHTML = 'Try Again';
-            }
-        }
+        // No client-side logic needed for static download page
     </script>
 </body>
 </html>
